@@ -4,6 +4,10 @@
 import os
 import asyncio
 from google import genai
+from google.adk.tools import FunctionTool
+from google.adk.tools import ToolContext
+
+
 
 
 import warnings
@@ -16,7 +20,7 @@ logging.basicConfig(level=logging.ERROR)
 print("Libraries imported.")
 
 # @title Define the tool function to solve algebra problems and provide solution steps.
-def solve_algebra_problem(problem: str) -> dict:
+def solve_algebra_problem(problem: str, tool_context: ToolContext) -> dict:
     """Solves an algebra problem and provides step-by-step solution.
 
     Args:
@@ -41,6 +45,9 @@ def solve_algebra_problem(problem: str) -> dict:
             "top_p": 0.8,
         }
     )
+    # add question and answer to the tool context state
+    tool_context.state["last_algebra_problem"] = problem
+    tool_context.state["last_algebra_answer"] = response.text
 
     if response:
         return {"status": "success", "steps": response.text, "answer": response.text}
@@ -53,7 +60,7 @@ def solve_algebra_problem(problem: str) -> dict:
 # print(solve_algebra_problem("10 - 4x = 6"))
 
 
-def solve_geometry_problem(problem: str) -> dict:
+def solve_geometry_problem(problem: str, tool_context: ToolContext) -> dict:
     """Solves a geometry problem and provides step-by-step solution.
 
     Args:
@@ -79,6 +86,9 @@ def solve_geometry_problem(problem: str) -> dict:
         }
     )
 
+    tool_context.state["last_geometry_problem"] = problem
+    tool_context.state["last_geometry_answer"] = response.text
+
     if response:
         return {"status": "success", "steps": response.text, "answer": response.text}
     else:
@@ -86,7 +96,7 @@ def solve_geometry_problem(problem: str) -> dict:
     
 
 
-def solve_calculus_problem(problem: str) -> dict:
+def solve_calculus_problem(problem: str, tool_context: ToolContext) -> dict:
     """Solves a calculus problem and provides step-by-step solution.
 
     Args:
@@ -110,6 +120,8 @@ def solve_calculus_problem(problem: str) -> dict:
             "top_p": 0.8,
         }
     )
+    tool_context.state["last_calculus_problem"] = problem
+    tool_context.state["last_calculus_answer"] = response.text
 
     if response:
         return {"status": "success", "steps": response.text, "answer": response.text}
@@ -117,7 +129,7 @@ def solve_calculus_problem(problem: str) -> dict:
         return {"status": "error", "error_message": f"Sorry, I couldn't solve the problem '{problem}'."}
     
 
-def solve_trigonometry_problem(problem: str) -> dict:
+def solve_trigonometry_problem(problem: str, tool_context: ToolContext) -> dict:
     """Solves a trigonometry problem and provides step-by-step solution.
 
     Args:
@@ -141,6 +153,8 @@ def solve_trigonometry_problem(problem: str) -> dict:
             "top_p": 0.8,
         }
     )
+    tool_context.state["last_trigonometry_problem"] = problem
+    tool_context.state["last_trigonometry_answer"] = response.text
 
     if response:
         return {"status": "success", "steps": response.text, "answer": response.text}
@@ -149,7 +163,7 @@ def solve_trigonometry_problem(problem: str) -> dict:
     
 
 
-def solve_linear_algebra_problem(problem: str) -> dict:
+def solve_linear_algebra_problem(problem: str, tool_context: ToolContext) -> dict:
     """Solves a linear algebra problem and provides step-by-step solution.
 
     Args:
@@ -173,6 +187,9 @@ def solve_linear_algebra_problem(problem: str) -> dict:
             "top_p": 0.8,
         }
     )
+    tool_context.state["last_linear_algebra_problem"] = problem
+    tool_context.state["last_linear_algebra_answer"] = response.text
+
 
     if response:
         return {"status": "success", "steps": response.text, "answer": response.text}
@@ -180,7 +197,7 @@ def solve_linear_algebra_problem(problem: str) -> dict:
         return {"status": "error", "error_message": f"Sorry, I couldn't solve the problem '{problem}'."}
     
 
-def solve_statistics_problem(problem: str) -> dict:
+def solve_statistics_problem(problem: str, tool_context: ToolContext) -> dict:
     """Solves a statistics problem and provides step-by-step solution.
 
     Args:
@@ -204,6 +221,8 @@ def solve_statistics_problem(problem: str) -> dict:
             "top_p": 0.8,
         }
     )
+    tool_context.state["last_statistics_problem"] = problem
+    tool_context.state["last_statistics_answer"] = response.text
 
     if response:
         return {"status": "success", "steps": response.text, "answer": response.text}
@@ -211,8 +230,7 @@ def solve_statistics_problem(problem: str) -> dict:
         return {"status": "error", "error_message": f"Sorry, I don't have a solution for '{problem}'."}
     
 
-
-def solve_probability_problem(problem: str) -> dict:
+def solve_probability_problem(problem: str, tool_context: ToolContext) -> dict:
     """Solves a probability problem and provides step-by-step solution.
 
     Args:
@@ -236,6 +254,8 @@ def solve_probability_problem(problem: str) -> dict:
             "top_p": 0.8,
         }
     )
+    tool_context.state["last_probability_problem"] = problem
+    tool_context.state["last_probability_answer"] = response.text
 
     if response:
         return {"status": "success", "steps": response.text, "answer": response.text}
