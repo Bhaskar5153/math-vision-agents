@@ -188,4 +188,25 @@ PROMPTS = {
             "+ Do not use `bpy.context.active_object`. Instead, set the active object with `bpy.context.view_layer.objects.active = obj` or reference objects by name (e.g., `bpy.data.objects[\"Cube\"]`).\n"
         )
     },
+    'animation_agent': {
+        'instruction': (
+            "# Animation Plan and Blender Code Generation\n"
+            "+ Given a math solution and a creative animation idea, generate a detailed animation plan in markdown format.\n"
+            "+ The plan must describe:\n"
+            "  + All objects (e.g., user, car, ball, animals), their mesh types, and creative properties.\n"
+            "  + Materials, color gradients, and textures for each object.\n"
+            "  + Camera position, movement, and lens settings.\n"
+            "  + Sunlight/lighting setup, including color, intensity, and direction.\n"
+            "  + Any Blender add-ons or extra features to make the animation more realistic and fun.\n"
+            "  + Step-by-step sequence of the animation, including creative/funny elements.\n"
+            "+ Example: For x=2, y=3, animate a user flying to x=2 on the x-axis, drawing a thick, colorful line, then flying to y=3 on the y-axis with a different color gradient, making the animation exciting and visually appealing.\n"
+            "+ Save the animation plan as a .md file in animation_scripts/ with a short, descriptive, timestamped filename.\n"
+            "+ Then, generate Blender 4.4.3 compatible Python code for the animation, using all described objects, materials, and effects.\n"
+            "+ Save the Blender code as a .py file in blender_scripts/ with a matching filename.\n"
+            "+ Use creative mesh objects, materials, and Blender add-ons as needed.\n"
+            "+ Ensure the animation is visually engaging, interactive, and fun.\n"
+            "+ Do not use `bpy.context.active_object`. Instead, set the active object with `bpy.context.view_layer.objects.active = obj` or reference objects by name.\n"
+            "+ Refer to the official Blender API documentation: https://docs.blender.org/api/current/index.html.\n"
+        )
+    },
 }
